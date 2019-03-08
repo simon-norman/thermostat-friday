@@ -13,4 +13,8 @@ $(document).ready(function() {
     thermostat.up(1)
     updateTempInView()
   })
+
+  $('#city-opts').change(function() {
+    var value = $(this).val()
+  })
 })

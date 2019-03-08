@@ -1,4 +1,8 @@
 $(document).ready(function() {
+
+  $.get("http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=540378eb7428b089f0f49076bca7ef4b&units=metric", function(weatherData){
+    $('#city-temp').text(`${weatherData.main.temp}°C`)
+  })
   var thermostat = new Thermostat()
 
   function updateTempInView() {

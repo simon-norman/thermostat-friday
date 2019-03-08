@@ -1,15 +1,27 @@
-var countryList = {'London': 'uk', 'New York': 'us', 'Moscow': 'ru', 'New Delhi': 'in', 'Tokyo': 'jp', 'San Francisco': 'us'}
+var countryList = {
+  'London': 'uk', 
+  'New York': 'us', 
+  'Moscow': 'ru', 
+  'New Delhi': 'in', 
+  'Tokyo': 'jp', 
+  'San Francisco': 'us'
+}
+
+function weatherServiceUrl(city, country) {
+  return `http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=540378eb7428b089f0f49076bca7ef4b&units=metric`
+}
 
 
 $(document).ready(function() {
-  function getWeather({city='London', country='uk'}={}) {
-  $.get(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=540378eb7428b089f0f49076bca7ef4b&units=metric`, function(weatherData){
-    $('#city-temp').text(`${weatherData.main.temp}°C`)
-  })
-}
+  function displayWeather({city='London', country='uk'}={}) {
+    $.get(weatherServiceUrl(city, country), function(weatherData){
+      $('#city-temp').text(`${weatherData.main.temp}°C`)
+    })
+  }
+  displayWeather()
 
   var thermostat = new Thermostat()
-  getWeather()
+
   function updateTempInView() {
     $('#temp-display').text(`${thermostat.temp}°C`)
   }
@@ -22,7 +34,6 @@ $(document).ready(function() {
   $('#city-opts').change(function() {
     var city = $(this).val()
     country = countryList[city]
-    getWeather({city, country})
-
+    displayWeather({city, country})
   })
 })

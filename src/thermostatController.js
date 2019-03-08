@@ -1,10 +1,15 @@
-$(document).ready(function() {
+var countryList = {'London': 'uk', 'New York': 'us', 'Moscow': 'ru', 'New Delhi': 'in', 'Tokyo': 'jp', 'San Francisco': 'us'}
 
-  $.get("http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=540378eb7428b089f0f49076bca7ef4b&units=metric", function(weatherData){
+
+$(document).ready(function() {
+  function getWeather({city='London', country='uk'}={}) {
+  $.get(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&APPID=540378eb7428b089f0f49076bca7ef4b&units=metric`, function(weatherData){
     $('#city-temp').text(`${weatherData.main.temp}°C`)
   })
-  var thermostat = new Thermostat()
+}
 
+  var thermostat = new Thermostat()
+  getWeather()
   function updateTempInView() {
     $('#temp-display').text(`${thermostat.temp}°C`)
   }
@@ -15,6 +20,9 @@ $(document).ready(function() {
   })
 
   $('#city-opts').change(function() {
-    var value = $(this).val()
+    var city = $(this).val()
+    country = countryList[city]
+    getWeather({city, country})
+
   })
 })
